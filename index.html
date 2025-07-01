@@ -3,20 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <title>Surat Cinta Untukmu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
       background: url('https://images.unsplash.com/photo-1529257414771-1960c1c4194a?auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
       font-family: 'Segoe UI', sans-serif;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      overflow: hidden;
+      padding-top: 60px;
+      padding-bottom: 40px;
+      overflow-x: hidden;
       position: relative;
     }
 
@@ -38,37 +42,25 @@
       border-radius: 50%;
     }
 
-    .heart::before {
-      top: -5px;
-      left: 0;
-    }
-
-    .heart::after {
-      left: -5px;
-      top: 0;
-    }
+    .heart::before { top: -5px; left: 0; }
+    .heart::after { top: 0; left: -5px; }
 
     @keyframes float {
-      0% {
-        transform: translateY(0) rotate(45deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100vh) rotate(45deg);
-        opacity: 0;
-      }
+      0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(45deg); opacity: 0; }
     }
 
     .container {
       position: relative;
-      width: 320px;
-      height: 220px;
+      width: 90%;
+      max-width: 340px;
+      margin-bottom: 20px;
       cursor: pointer;
     }
 
     .envelope {
       width: 100%;
-      height: 100%;
+      height: 200px;
       background: #f06292;
       border-radius: 10px;
       position: relative;
@@ -88,31 +80,20 @@
       z-index: 2;
     }
 
-    .letter {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      background: #fff;
-      padding: 20px;
-      text-align: center;
-      transform: translateY(0);
-      opacity: 0;
-      border-radius: 0 0 10px 10px;
-      transition: all 0.6s ease;
-      z-index: 1;
-      max-height: 380px;
-      overflow-y: auto;
-    }
-
     .envelope.open .flap {
       transform: rotateX(180deg);
     }
 
-    .envelope.open + .letter {
-      top: 100%;
-      opacity: 1;
-      transform: translateY(-50%);
+    .letter {
+      margin-top: 20px;
+      width: 90%;
+      max-width: 360px;
+      background: #fff;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      z-index: 1;
     }
 
     .letter h2 {
@@ -121,8 +102,9 @@
     }
 
     .letter p {
-      font-size: 14px;
-      color: #555;
+      font-size: 16px;
+      color: #444;
+      line-height: 1.6;
     }
 
     .gallery {
@@ -137,19 +119,28 @@
       height: 80px;
       object-fit: cover;
       border-radius: 8px;
-      transition: transform 0.4s;
+      transition: transform 0.4s ease;
     }
 
     .gallery img:hover {
-      transform: scale(1.1);
+      transform: scale(1.08);
     }
 
     footer {
-      position: absolute;
-      bottom: 10px;
+      margin-top: 30px;
       color: #fff;
       font-size: 12px;
       text-shadow: 1px 1px 2px #000;
+    }
+
+    @media (max-width: 480px) {
+      .letter p {
+        font-size: 14px;
+      }
+
+      .gallery img {
+        height: 70px;
+      }
     }
   </style>
 </head>
@@ -159,17 +150,20 @@
   <div class="envelope" id="envelope">
     <div class="flap"></div>
   </div>
-  <div class="letter" id="letter">
-    <h2>Untuk Kamu yang Spesial 💖</h2>
-    <p>
-      Sejak pertama kali aku melihatmu, hatiku tahu bahwa kamulah yang selama ini aku cari. Terima kasih sudah hadir dan membuat hidupku lebih indah.
-    </p>
-    <div class="gallery">
-      <img src="img/1.jpg" alt="img1">
-      <img src="img/2.jpg" alt="img2">
-      <img src="img/3.jpg" alt="img3">
-      <img src="img/4.jpg" alt="img4">
-    </div>
+</div>
+
+<div class="letter" id="letter">
+  <h2>Untuk Kamu yang Spesial 💖</h2>
+  <p>
+    Sejak pertama kali aku melihatmu, hatiku tahu bahwa kamulah yang selama ini aku cari.
+    Terima kasih sudah hadir dan membuat hidupku lebih indah. Aku ingin terus bersamamu,
+    menulis cerita-cerita indah setiap hari. 💌
+  </p>
+  <div class="gallery">
+    <img src="img/1.jpg" alt="img1">
+    <img src="img/2.jpg" alt="img2">
+    <img src="img/3.jpg" alt="img3">
+    <img src="img/4.jpg" alt="img4">
   </div>
 </div>
 
@@ -177,21 +171,18 @@
 
 <script>
   const envelope = document.getElementById('envelope');
-  const letter = document.getElementById('letter');
   function toggleLetter() {
     envelope.classList.toggle('open');
   }
 
-  // Love particles animation
+  // Floating hearts animation
   function createHeart() {
     const heart = document.createElement("div");
     heart.classList.add("heart");
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.animationDuration = 4 + Math.random() * 3 + "s";
     document.body.appendChild(heart);
-    setTimeout(() => {
-      heart.remove();
-    }, 7000);
+    setTimeout(() => heart.remove(), 7000);
   }
   setInterval(createHeart, 300);
 </script>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Surat Cinta Untukmu</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: url('https://images.unsplash.com/photo-1529257414771-1960c1c4194a?auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .heart {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 5s linear infinite;
+    }
+
+    .heart::before, .heart::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -5px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -5px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      position: relative;
+      width: 320px;
+      height: 220px;
+      cursor: pointer;
+    }
+
+    .envelope {
+      width: 100%;
+      height: 100%;
+      background: #f06292;
+      border-radius: 10px;
+      position: relative;
+      transition: all 0.6s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ec407a;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+      transition: transform 0.6s ease;
+      z-index: 2;
+    }
+
+    .letter {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      padding: 20px;
+      text-align: center;
+      transform: translateY(0);
+      opacity: 0;
+      border-radius: 0 0 10px 10px;
+      transition: all 0.6s ease;
+      z-index: 1;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    .envelope.open .flap {
+      transform: rotateX(180deg);
+    }
+
+    .envelope.open + .letter {
+      top: 100%;
+      opacity: 1;
+      transform: translateY(-50%);
+    }
+
+    .letter h2 {
+      color: #ec407a;
+      margin-bottom: 10px;
+    }
+
+    .letter p {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .gallery {
+      margin-top: 15px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.4s;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.1);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      color: #fff;
+      font-size: 12px;
+      text-shadow: 1px 1px 2px #000;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" onclick="toggleLetter()">
+  <div class="envelope" id="envelope">
+    <div class="flap"></div>
+  </div>
+  <div class="letter" id="letter">
+    <h2>Untuk Kamu yang Spesial 💖</h2>
+    <p>
+      Sejak pertama kali aku melihatmu, hatiku tahu bahwa kamulah yang selama ini aku cari. Terima kasih sudah hadir dan membuat hidupku lebih indah.
+    </p>
+    <div class="gallery">
+      <img src="img/1.jpg" alt="img1">
+      <img src="img/2.jpg" alt="img2">
+      <img src="img/3.jpg" alt="img3">
+      <img src="img/4.jpg" alt="img4">
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 Surat Cinta Digital</footer>
+
+<script>
+  const envelope = document.getElementById('envelope');
+  const letter = document.getElementById('letter');
+  function toggleLetter() {
+    envelope.classList.toggle('open');
+  }
+
+  // Love particles animation
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => {
+      heart.remove();
+    }, 7000);
+  }
+  setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
